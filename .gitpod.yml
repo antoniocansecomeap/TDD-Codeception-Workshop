@@ -1,0 +1,43 @@
+# .gitpod.yml
+image:
+  file: .gitpod.Dockerfile
+
+ports:
+  - port: 8000
+    onOpen: open-preview
+    visibility: public
+  - port: 9003
+    onOpen: ignore
+  - port: 3306
+    onOpen: ignore
+
+tasks:
+  - init: |
+      composer install
+      npm install
+      npm run build
+      symfony console doctrine:database:create
+      symfony console doctrine:schema:update --force
+      symfony console doctrine:fixtures:load --no-interaction
+    command: |
+      symfony serve
+  
+  - command: |
+      selenium-standalone start
+
+vscode:
+  extensions:
+    - xdebug.php-debug
+    - bmewburn.vscode-intelephense-client
+    - MehediDracula.php-namespace-resolver
+    - recca0120.vscode-phpunit
+    - neilbrayfield.php-docblocker
+    - junstyle.php-cs-fixer
+    - TheNouillet.symfony-vscode
+    - Symfony.vscode-symfony-test-explorer
+
+github:
+  prebuilds:
+    master: true
+    branches: true
+    pullRequests: true
