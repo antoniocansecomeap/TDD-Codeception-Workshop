@@ -4,7 +4,7 @@ Dieses Repository enthält das Starter-Projekt für den TDD Workshop mit Codecep
 
 ## Gitpod Quickstart
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/DEIN-REPOSITORY/tdd-workshop)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/antoniocansecomeap/TDD-Codeception-Workshop)
 
 ## Lokale Installation
 
