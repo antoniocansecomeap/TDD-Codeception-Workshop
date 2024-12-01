@@ -1,9 +1,9 @@
 FROM gitpod/workspace-full
 
 # Install PHP 8.1
-RUN sudo add-apt-repository ppa:ondrej/php
-RUN sudo apt-get update
-RUN sudo apt-get install -y \
+RUN sudo install-packages software-properties-common
+RUN sudo add-apt-repository -y ppa:ondrej/php
+RUN sudo install-packages \
     php8.1 \
     php8.1-cli \
     php8.1-common \
@@ -17,32 +17,31 @@ RUN sudo apt-get install -y \
     php8.1-sqlite3
 
 # Install Symfony CLI
-RUN curl -sS https://get.symfony.com/cli/installer | bash
-RUN echo 'export PATH="$HOME/.symfony5/bin:$PATH"' >> ~/.bashrc
-
-# Install Composer
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
-    php composer-setup.php && \
-    php -r "unlink('composer-setup.php');" && \
-    sudo mv composer.phar /usr/local/bin/composer
+RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash
+RUN sudo install-packages symfony-cli
 
 # Install Node.js and npm
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && \
-    sudo apt-get install -y nodejs
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+RUN sudo install-packages nodejs
 
 # Install Selenium standalone
 RUN sudo npm install -g selenium-standalone
 RUN sudo selenium-standalone install
 
 # Configure Xdebug
-RUN echo "xdebug.mode=debug,coverage" | sudo tee -a /etc/php/8.1/cli/conf.d/20-xdebug.ini && \
-    echo "xdebug.start_with_request=yes" | sudo tee -a /etc/php/8.1/cli/conf.d/20-xdebug.ini && \
-    echo "xdebug.client_port=9003" | sudo tee -a /etc/php/8.1/cli/conf.d/20-xdebug.ini && \
-    echo "xdebug.client_host=localhost" | sudo tee -a /etc/php/8.1/cli/conf.d/20-xdebug.ini
+RUN sudo echo "xdebug.mode=debug,coverage" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini
+RUN sudo echo "xdebug.start_with_request=yes" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini
+RUN sudo echo "xdebug.client_port=9003" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini
+RUN sudo echo "xdebug.client_host=localhost" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini
 
 # Install Chrome and ChromeDriver for Selenium
-RUN sudo apt-get update && \
-    sudo apt-get install -y chromium-browser chromium-chromedriver
+RUN sudo install-packages chromium-browser chromium-chromedriver
 
-# Clean up
-RUN sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# Install Composer globally
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+    && php composer-setup.php --quiet \
+    && sudo mv composer.phar /usr/local/bin/composer \
+    && rm composer-setup.php
+
+# Clear cache
+RUN sudo rm -rf /var/lib/apt/lists/*
