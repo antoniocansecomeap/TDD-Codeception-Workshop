@@ -13,6 +13,8 @@ ports:
 
 tasks:
   - init: |
+      npm install -g selenium-standalone
+      selenium-standalone install
       composer install
       npm install
       npm run build
@@ -20,9 +22,7 @@ tasks:
       symfony console doctrine:schema:update --force
       symfony console doctrine:fixtures:load --no-interaction
     command: |
-      symfony serve
-  
-  - command: |
+      symfony serve &
       selenium-standalone start
 
 vscode:
@@ -41,3 +41,4 @@ github:
     master: true
     branches: true
     pullRequests: true
+    

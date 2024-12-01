@@ -24,17 +24,13 @@ RUN sudo install-packages symfony-cli
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 RUN sudo install-packages nodejs
 
-# Install Selenium standalone
-RUN sudo npm install -g selenium-standalone
-RUN sudo selenium-standalone install
-
 # Configure Xdebug
 RUN sudo echo "xdebug.mode=debug,coverage" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini
 RUN sudo echo "xdebug.start_with_request=yes" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini
 RUN sudo echo "xdebug.client_port=9003" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini
 RUN sudo echo "xdebug.client_host=localhost" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini
 
-# Install Chrome and ChromeDriver for Selenium
+# Install Chrome and ChromeDriver
 RUN sudo install-packages chromium-browser chromium-chromedriver
 
 # Install Composer globally
