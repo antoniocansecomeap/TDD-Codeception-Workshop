@@ -10,10 +10,9 @@ Dieses Repository enthält das Starter-Projekt für den TDD Workshop mit Codecep
 
 1. Repository klonen:
 ```bash
-git clone https://github.com/DEIN-REPOSITORY/tdd-workshop.git
+git clone https://github.com/antoniocansecomeap/TDD-Codeception-Workshop.git
 cd tdd-workshop
 ```
-
 2. Abhängigkeiten installieren:
 ```bash
 composer install
