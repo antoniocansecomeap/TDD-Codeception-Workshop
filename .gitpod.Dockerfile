@@ -25,10 +25,10 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 RUN sudo install-packages nodejs
 
 # Configure Xdebug
-RUN sudo echo "xdebug.mode=debug,coverage" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini
-RUN sudo echo "xdebug.start_with_request=yes" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini
-RUN sudo echo "xdebug.client_port=9003" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini
-RUN sudo echo "xdebug.client_host=localhost" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini
+RUN sudo bash -c 'echo "xdebug.mode=debug,coverage" > /etc/php/8.1/cli/conf.d/99-xdebug.ini' && \
+    sudo bash -c 'echo "xdebug.start_with_request=yes" >> /etc/php/8.1/cli/conf.d/99-xdebug.ini' && \
+    sudo bash -c 'echo "xdebug.client_port=9003" >> /etc/php/8.1/cli/conf.d/99-xdebug.ini' && \
+    sudo bash -c 'echo "xdebug.client_host=localhost" >> /etc/php/8.1/cli/conf.d/99-xdebug.ini'
 
 # Install Chrome and ChromeDriver
 RUN sudo install-packages chromium-browser chromium-chromedriver
